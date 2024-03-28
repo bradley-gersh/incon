@@ -64,7 +64,7 @@ test_that("get_roughness_hutch", {
 
 context("test-sethares")
 
-test_that("Regression tests generated from Sethares's implementation", {
+test_that("Regression tests generated from Sethares's implementation (min)", {
   # See below for MATLAB implementation of Sethares's (1993) model,
   # sourced from http://sethares.engr.wisc.edu/comprog.html.
   # To reproduce the exact results, it would be necessary
@@ -72,7 +72,7 @@ test_that("Regression tests generated from Sethares's implementation", {
   # Note that Sethares's implementation also introduces an arbitrary
   # scaling factor, which we need to compensate for in our testing.
   f <- function(frequency, amplitude, ref = TRUE) {
-    x <- roughness_seth(hrep::sparse_fr_spectrum(list(frequency, amplitude)))
+    x <- roughness_seth(hrep::sparse_fr_spectrum(list(frequency, amplitude)), min_amplitude = TRUE)
     if (ref) {
       x / f(frequency = c(440, 460), amplitude = c(1, 1), ref = FALSE)
     } else x
@@ -85,6 +85,28 @@ test_that("Regression tests generated from Sethares's implementation", {
   expect_equal(f(c(440, 460, 480), c(1, 2, 3)), 3.9161, tolerance = 1e-2)
   expect_equal(f(c(440, 460, 480), c(3, 2, 1)), 3.9194, tolerance = 1e-2)
   expect_equal(f(c(300, 250, 275, 425), c(1.5, 2, 9, 4)), 4.8657, tolerance = 1e-2)
+})
+
+test_that("Regression tests generated from Sethares's implementation (product)", {
+  # Same as above but treating dyadic roughness as proportional to the product of
+  # the two amplitudes.
+
+  f <- function(frequency, amplitude, ref = TRUE) {
+    x <- roughness_seth(hrep::sparse_fr_spectrum(list(frequency, amplitude)), min_amplitude = FALSE)
+    if (ref) {
+      x / f(frequency = c(440, 460), amplitude = c(1, 1), ref = FALSE)
+    } else x
+  }
+
+  # Let dissmeasureP be defined as dissmeasure in the below MATLAB code,
+  # but replacing the definition of a by
+  #   a = ams(i:N) .* ams(1:N-i+1)
+  # dissmeasure([440, 460, 480], [1, 1, 1]) / dissmeasure([440, 460], [1, 1])
+  expect_equal(f(c(440, 460, 480), c(1, 1, 1)), 2.9194, tolerance = 1e-2)
+
+  expect_equal(f(c(440, 460, 480), c(1, 2, 3)), 10.748, tolerance = 1e-2)
+  expect_equal(f(c(440, 460, 480), c(3, 2, 1)), 10.762, tolerance = 1e-2)
+  expect_equal(f(c(300, 250, 275, 425), c(1.5, 2, 9, 4)), 36.007, tolerance = 1e-2)
 })
 
 # Sethares's MATLAB code:

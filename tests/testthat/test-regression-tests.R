@@ -33,8 +33,11 @@ test_that("regression tests", {
   c(60, 64, 67) %>% incon("parn_94_pure") %>%
     expect_equal(0.6157366, tolerance = 1e-5, check.names = FALSE)
 
-  c(60, 64, 67) %>% incon("seth_93_roughness") %>%
+  c(60, 64, 67) %>% incon("seth_93_roughness_min") %>%
     expect_equal(0.7735006, tolerance = 1e-5, check.names = FALSE)
+
+  c(60, 64, 67) %>% incon("seth_93_roughness_prod") %>%
+    expect_equal(0.319255, tolerance = 1e-5, check.names = FALSE)
 
   c(60, 64, 67) %>% incon("vass_01_roughness") %>%
     expect_equal(2.083763, tolerance = 1e-5, check.names = FALSE)

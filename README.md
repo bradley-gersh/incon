@@ -55,7 +55,7 @@ library(incon)
 
 chord <- c(60, 64, 67) # major triad, MIDI note numbers
 incon(chord)
-#> hutch_78_roughness 
+#> hutch_78_roughness
 #>          0.1202426
 ```
 
@@ -63,11 +63,11 @@ You can specify a vector of models and these will applied in turn.
 
 ``` r
 chord <- c(60, 63, 67) # minor triad
-models <- c("hutch_78_roughness", 
+models <- c("hutch_78_roughness",
             "parn_94_pure",
             "huron_94_dyadic")
 incon(c(60, 63, 67), models)
-#> hutch_78_roughness       parn_94_pure    huron_94_dyadic 
+#> hutch_78_roughness       parn_94_pure    huron_94_dyadic
 #>          0.1300830          0.6368813          2.2200000
 ```
 
@@ -93,7 +93,8 @@ Currently the following models are implemented:
 | huron_94_dyadic       | Huron (1994)                  | Interference            | incon   |
 | hutch_78_roughness    | Hutchinson & Knopoff (1978)   | Interference            | incon   |
 | parn_94_pure          | Parncutt & Strasburger (1994) | Interference            | incon   |
-| seth_93_roughness     | Sethares (1993)               | Interference            | incon   |
+| seth_93_roughness_min | Sethares (1993, minimum)      | Interference            | incon   |
+| seth_93_roughness_prod| Sethares (1993, product)      | Interference            | incon   |
 | vass_01_roughness     | Vassilakis (2001)             | Interference            | incon   |
 | wang_13_roughness     | Wang et al. (2013)            | Interference            | incon   |
 | jl_12_tonal           | Johnson-Laird et al. (2012)   | Culture                 | incon   |
@@ -113,7 +114,7 @@ functions explicitly, as in the following example, which computes the
 roughness of a chord using the Hutchinson-Knopoff dissonance model:
 
 ``` r
-spectrum <- 
+spectrum <-
   hrep::sparse_fr_spectrum(list(
     frequency = c(400, 800, 1200, 1250),
     amplitude = c(1, 0.7, 0.9, 0.6)

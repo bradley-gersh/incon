@@ -262,12 +262,12 @@ hutch_visualise <- function(x,
 #' Spectral roughness (Sethares)
 #'
 #' Gets the roughness of a sonority according to the model of Sethares (1993).
-#' By default, the algorithm is modified according to
-#' \insertCite{Sethares2005;textual}{incon} and
-#' \insertCite{Weisser2013;textual}{incon}:
-#' roughness is proportional to the minimum amplitude of each pair of partials,
-#' not the product of their amplitudes.
-#' This behaviour can be disabled by setting \code{min_amplitude = FALSE}.
+#' By default, the algorithm is the original of
+#' \insertCite{Sethares1993;textual}{dycon}. By default, roughness is set to be
+#' proportional to the product of the amplitudes of each pair of partials.
+#' It can be modified according to \insertCite{Weisser2013;textual}{dycon} so
+#' that roughness is proportional to the minimum amplitude of each pair instead
+#' by setting \code{min_amplitude = TRUE}.
 #' @param x Object to analyse, which is coerced to the class
 #' \code{\link[hrep]{sparse_fr_spectrum}}.
 #' * Numeric vectors will be treated as vectors of MIDI note numbers,
@@ -281,7 +281,7 @@ hutch_visualise <- function(x,
 #' suggests using loudnesses instead of amplitudes.
 #' However, he acknowledges that loudness is difficult to calculate
 #' for arbitrary timbres.
-#' Furthermore, if we replace amplitude with roughness,
+#' Furthermore, if we replace amplitude with loudness,
 #' we lose the original model's invariance to multiplicative
 #' scaling of the original signal.
 #' In this implementation, we therefore stay with amplitude,
@@ -291,21 +291,21 @@ hutch_visualise <- function(x,
 #' @rdname roughness_seth
 #' @md
 #' @export
-roughness_seth <- function(x, min_amplitude = TRUE, ...) {
+roughness_seth <- function(x, min_amplitude = FALSE, ...) {
   UseMethod("roughness_seth")
 }
 
 #' @param ... Further arguments to pass to \code{\link[hrep]{sparse_fr_spectrum}}.
 #' @rdname roughness_seth
 #' @export
-roughness_seth.default <- function(x, min_amplitude = TRUE, ...) {
+roughness_seth.default <- function(x, min_amplitude = FALSE, ...) {
   x <- hrep::sparse_fr_spectrum(x, ...)
   roughness_seth(x, min_amplitude = min_amplitude)
 }
 
 #' @rdname roughness_seth
 #' @export
-roughness_seth.sparse_fr_spectrum <- function(x, min_amplitude = TRUE, ...) {
+roughness_seth.sparse_fr_spectrum <- function(x, min_amplitude = FALSE, ...) {
   frequency <- hrep::freq(x)
   amplitude <- hrep::amp(x)
   n <- length(frequency)
@@ -339,11 +339,12 @@ roughness_seth.sparse_fr_spectrum <- function(x, min_amplitude = TRUE, ...) {
 #' roughness is considered to be proportional to
 #' the minimum amplitude of each pair of partials,
 #' rather than the product of their amplitudes.
-#' The default (\code{TRUE}) corresponds to the algorithm as updated by
-#' \insertCite{Sethares2005;textual}{incon} and
-#' \insertCite{Weisser2013;textual}{incon}.
-#' Set to \code{FALSE} to recover the original algorithm from
-#' \insertCite{Sethares1993;textual}{incon}.
+#' The default \code{FALSE} recovers the original algorithm from
+#' \insertCite{Sethares1993;textual}{dycon}.
+#' Set (\code{TRUE}) for the algorithm as updated by
+#' \insertCite{Weisser2013;textual}{dycon}.
+#' Note however that \insertCite{Sethares2005;textual}{dycon} suggests using the
+#' minimum loudness, not amplitude, of each pair of partials.
 #' @param a Numeric scalar parameter, optimised to 3.5 (default) in Sethares (1993).
 #' @param b Numeric scalar parameter, optimised to 5.75 (default) in Sethares (1993).
 #' @param s1 Numeric scalar parameter from Sethares (1993).
@@ -354,7 +355,7 @@ roughness_seth.sparse_fr_spectrum <- function(x, min_amplitude = TRUE, ...) {
 #' \insertAllCited{}
 dyad_roughness_seth <- function(f1, f2, a1, a2,
                                 ensure_f1_is_less_than_f2 = TRUE,
-                                min_amplitude = TRUE,
+                                min_amplitude = FALSE,
                                 a = 3.5,
                                 b = 5.75,
                                 s1 = 0.021,

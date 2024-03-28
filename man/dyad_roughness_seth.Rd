@@ -10,7 +10,7 @@ dyad_roughness_seth(
   a1,
   a2,
   ensure_f1_is_less_than_f2 = TRUE,
-  min_amplitude = TRUE,
+  min_amplitude = FALSE,
   a = 3.5,
   b = 5.75,
   s1 = 0.021,
@@ -33,11 +33,12 @@ dyad_roughness_seth(
 roughness is considered to be proportional to
 the minimum amplitude of each pair of partials,
 rather than the product of their amplitudes.
-The default (\code{TRUE}) corresponds to the algorithm as updated by
-\insertCite{Sethares2005;textual}{incon} and
-\insertCite{Weisser2013;textual}{incon}.
-Set to \code{FALSE} to recover the original algorithm from
-\insertCite{Sethares1993;textual}{incon}.}
+The default \code{FALSE} recovers the original algorithm from
+\insertCite{Sethares1993;textual}{dycon}.
+Set (\code{TRUE}) for the algorithm as updated by
+\insertCite{Weisser2013;textual}{dycon}.
+Note however that \insertCite{Sethares2005;textual}{dycon} suggests using the
+minimum loudness, not amplitude, of each pair of partials.}
 
 \item{a}{Numeric scalar parameter, optimised to 3.5 (default) in Sethares (1993).}
 

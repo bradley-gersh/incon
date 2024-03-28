@@ -178,7 +178,7 @@ add_model("parn_94_pure",
                        roll_off = roll_off,
                        ...))
 
-add_model("seth_93_roughness",
+add_model("seth_93_roughness_min",
           "Sethares (1993)",
           "Interference",
           "incon",
@@ -189,7 +189,23 @@ add_model("seth_93_roughness",
             roughness_seth(x,
                            num_harmonics = num_harmonics,
                            roll_off = roll_off,
+                           min_amplitude = TRUE,
                            ...))
+
+add_model("seth_93_roughness_prod",
+          "Sethares (1993)",
+          "Interference",
+          "incon",
+          consonance = FALSE,
+          spectrum_sensitive = TRUE,
+          continuous_pitch = TRUE,
+          f = function(x, num_harmonics, roll_off, ...)
+            roughness_seth(x,
+                           num_harmonics = num_harmonics,
+                           roll_off = roll_off,
+                           min_amplitude = FALSE,
+                           ...))
+
 
 add_model("vass_01_roughness",
           "Vassilakis (2001)",

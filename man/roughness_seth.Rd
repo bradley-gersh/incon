@@ -6,11 +6,11 @@
 \alias{roughness_seth.sparse_fr_spectrum}
 \title{Spectral roughness (Sethares)}
 \usage{
-roughness_seth(x, min_amplitude = TRUE, ...)
+roughness_seth(x, min_amplitude = FALSE, ...)
 
-\method{roughness_seth}{default}(x, min_amplitude = TRUE, ...)
+\method{roughness_seth}{default}(x, min_amplitude = FALSE, ...)
 
-\method{roughness_seth}{sparse_fr_spectrum}(x, min_amplitude = TRUE, ...)
+\method{roughness_seth}{sparse_fr_spectrum}(x, min_amplitude = FALSE, ...)
 }
 \arguments{
 \item{x}{Object to analyse, which is coerced to the class
@@ -32,19 +32,19 @@ Estimated roughness, as a numeric scalar.
 }
 \description{
 Gets the roughness of a sonority according to the model of Sethares (1993).
-By default, the algorithm is modified according to
-\insertCite{Sethares2005;textual}{incon} and
-\insertCite{Weisser2013;textual}{incon}:
-roughness is proportional to the minimum amplitude of each pair of partials,
-not the product of their amplitudes.
-This behaviour can be disabled by setting \code{min_amplitude = FALSE}.
+By default, the algorithm is the original of
+\insertCite{Sethares1993;textual}{dycon}. By default, roughness is set to be
+proportional to the product of the amplitudes of each pair of partials.
+It can be modified according to \insertCite{Weisser2013;textual}{dycon} so
+that roughness is proportional to the minimum amplitude of each pair instead
+by setting \code{min_amplitude = TRUE}.
 }
 \note{
 \insertCite{Sethares2005;textual}{incon}
 suggests using loudnesses instead of amplitudes.
 However, he acknowledges that loudness is difficult to calculate
 for arbitrary timbres.
-Furthermore, if we replace amplitude with roughness,
+Furthermore, if we replace amplitude with loudness,
 we lose the original model's invariance to multiplicative
 scaling of the original signal.
 In this implementation, we therefore stay with amplitude,

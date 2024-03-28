@@ -97,8 +97,11 @@ the roughness model of \insertCite{Hutchinson1978;textual}{incon}
 \item \code{parn_94_pure}:
 the complex sonorousness feature of \insertCite{Parncutt1994;textual}{incon}
 (see \code{incon::\link[incon]{pure_sonor}}).
-\item \code{seth_93_roughness}:
-the roughness model of \insertCite{Sethares1993;textual}{incon}
+\item \code{seth_93_roughness_min}:
+the roughness model of \insertCite{Sethares1993;textual}{incon} (min variant)
+(see \code{incon::\link[incon]{roughness_seth}}).
+\item \code{seth_93_roughness_prod}:
+the roughness model of \insertCite{Sethares1993;textual}{incon} (product variant)
 (see \code{incon::\link[incon]{roughness_seth}}).
 \item \code{vass_01_roughness}:
 the roughness model of \insertCite{Vassilakis2001;textual}{incon}
@@ -128,8 +131,10 @@ incon(c(60, 64, 67))
 incon("60 64 67")
 incon("60 64 67", model = "hutch_78_roughness")
 incon("60 64 67", model = c("hutch_78_roughness", "parn_88_root_ambig"))
-incon("0 4 7", model = "gill_09_harmonicity",
-      par = list(gill_09_harmonicity = list(tonic = 3)))
+incon("0 4 7",
+  model = "gill_09_harmonicity",
+  par = list(gill_09_harmonicity = list(tonic = 3))
+)
 
 }
 \references{
