@@ -376,7 +376,8 @@ dyad_roughness_seth <- function(f1, f2, a1, a2,
       a1 = ifelse(need_reversal, a2, a1),
       a2 = ifelse(need_reversal, a1, a2),
       ensure_f1_is_less_than_f2 = FALSE,
-      a = a, b = b, s1 = s1, s2 = s2, d_star = d_star
+      a = a, b = b, s1 = s1, s2 = s2, d_star = d_star,
+      min_amplitude = min_amplitude
     )
   } else {
     s <- d_star / (s1 * f1 + s2)
